@@ -81,4 +81,4 @@ class BackstagePasses(NormalItem):
         else:
             self.quality = 0
 
-    self.setSell_in()
+        self.setSell_in()
