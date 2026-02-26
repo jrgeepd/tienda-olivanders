@@ -1,12 +1,27 @@
-# -*- coding: utf-8 -*-
+class GildedRose:
+    def __init__(self):
+        self.inventory = Inventory()
 
-class GildedRose(object):
-    def __init__(self, items):
-        self.items = items
+    def updateDate(self):
+        self.inventory.updateInventory()
 
-    def update_quality(self):
+    def addItem(self, item):
+        self.inventory.addItem(item)
+
+    def getItems(self):
+        return self.inventory.getItems()
+
+
+class Inventory:
+    def __init__(self):
+        self.items = []
+
+    def updateInventory(self):
         for item in self.items:
-            item.update_quality()
+            item.updateQuality()
+
+    def addItem(self, item):
+        self.items.append(item)
 
     def getItems(self):
         return self.items
@@ -38,7 +53,7 @@ class NormalItem(Item):
             "quality de %s fuera de rango" % self.__class__.__name__
         )
 
-    def update_quality(self):
+    def updateQuality(self):
         if self.sell_in > 0:
             self.setQuality(-1)
         else:
@@ -47,7 +62,7 @@ class NormalItem(Item):
         self.setSell_in()
 
 class ConjuredItem(NormalItem):
-    def update_quality(self):
+    def updateQuality(self):
         if self.sell_in >= 0:
             self.setQuality(-2)
         else:
@@ -56,8 +71,8 @@ class ConjuredItem(NormalItem):
         self.setSell_in()
 
 class AgedBrie(NormalItem):
-    def update_quality(self):
-        if self.sell_in >= 0:
+    def updateQuality(self):
+        if self.sell_in > 0:
             self.setQuality(1)
         else:
             self.setQuality(2)
@@ -65,13 +80,13 @@ class AgedBrie(NormalItem):
         self.setSell_in()
 
 class Sulfuras(Item):
-    def update_quality(self):
+    def updateQuality(self):
         assert self.quality == 80, (
             "quality de %s debe ser 80" % self.__class__.__name__
         )
 
 class BackstagePasses(NormalItem):
-    def update_quality(self):
+    def updateQuality(self):
         if self.sell_in > 10:
             self.setQuality(1)
         elif self.sell_in > 5:
